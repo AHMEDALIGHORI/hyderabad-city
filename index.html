@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Hyderabad, Sindh — after sunset</title>
+    <meta
+      name="description"
+      content="A cinematic 3D portrait of Hyderabad, Sindh: Saddar to Latifabad, Qasimabad to Phuleli, after sunset."
+    />
+    <meta name="theme-color" content="#1a0b18" />
+    <meta property="og:title" content="Hyderabad, Sindh — after sunset" />
+    <meta
+      property="og:description"
+      content="A cinematic 3D portrait of Hyderabad: eleven towns, one sunset, built in Blender."
+    />
+    <meta property="og:image" content="./og.jpg" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif&family=Space+Grotesk:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="./assets/index-BHB02bVS.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BZhf3yLu.css">
+  </head>
+  <body>
+    <canvas id="scene"></canvas>
+
+    <div id="grain" aria-hidden="true"></div>
+    <div id="vignette" aria-hidden="true"></div>
+
+    <header id="hud-top">
+      <div class="plate">
+        <span class="city">HYDERABAD</span>
+        <span class="region">SINDH · PAKISTAN</span>
+      </div>
+      <div class="clock" id="clock">00:00</div>
+    </header>
+
+    <section id="district-card" aria-live="polite">
+      <span class="urdu" id="d-urdu"></span>
+      <h2 id="d-name"></h2>
+      <p id="d-note"></p>
+    </section>
+
+    <div id="progress"><i id="progress-fill"></i></div>
+
+    <button id="sound-btn" type="button">Sound off</button>
+
+    <div id="loader">
+      <div class="loader-inner">
+        <span class="badge">AFTER SUNSET</span>
+        <h1>Hyderabad</h1>
+        <div class="bar"><i id="loader-fill"></i></div>
+        <span class="pct" id="loader-pct">0%</span>
+      </div>
+    </div>
+
+  </body>
+</html>
