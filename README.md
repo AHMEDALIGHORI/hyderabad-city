@@ -82,6 +82,14 @@ public/models/*.glb       the city
 public/textures/*.png     generated facades, road, sand, sky
 ```
 
+## Realism pass
+
+- Facades are generated at 1024² with sills, lintels, balcony rails, AC units,
+  rust streaks, curtains and lit-window silhouettes, plus a bump map.
+- The renderer adds a photographic grade: split-tone shadows/highlights, a filmic
+  S-curve, radial aberration at the edges, vignette and animated grain.
+- Model re-compressed after the upgrade: 23 MB → 2.9 MB (Draco).
+
 ## Known rough edges
 
 - The sky is a gradient dome; low fog plus the dome's own falloff keeps it fairly flat

@@ -65,39 +65,92 @@ def _save_png(pixels, w, h, path, name):
 
 
 def make_facade_texture(prefix, wall, trim, lit_a, lit_b, lit_ratio, floors, cols, seed):
-    """Art-deco pastel facade with shuttered windows and a lit emissive map."""
+    """A photographed-feeling facade: sills, lintels, balconies, AC units,
+    grime, curtains. Returns a base map and a lit-window emissive map."""
     r = random.Random(seed)
-    w, h = 512, 512
+    w, h = 1024, 1024
     base = np.zeros((h, w, 3), dtype=np.float32)
     base[:] = wall
     emis = np.zeros((h, w, 3), dtype=np.float32)
 
-    cw, ch = w // cols, h // floors
-    for fx in range(cols):
-        for fy in range(floors):
-            x0, x1 = fx * cw + 12, (fx + 1) * cw - 12
-            y0, y1 = fy * ch + 14, (fy + 1) * ch - 22
-            # shutters
-            base[y0:y1, x0:x1] = trim
+    # --- wall grain + vertical grime (dirt collects under sills)
+    noise = np.random.RandomState(seed).normal(0, 0.018, (h, w, 1)).astype(np.float32)
+    base = np.clip(base + noise, 0, 1)
+    grime = np.linspace(0.16, 0.0, h, dtype=np.float32)[:, None, None]
+    base = np.clip(base - grime * np.array(wall, dtype=np.float32), 0, 1)
+
+    cw = w // cols
+    ch = h // floors
+
+    for fy in range(floors):
+        for fx in range(cols):
+            x0 = fx * cw + int(cw * 0.16)
+            x1 = (fx + 1) * cw - int(cw * 0.16)
+            y0 = fy * ch + int(ch * 0.22)
+            y1 = (fy + 1) * ch - int(ch * 0.30)
+
+            # lintel above and sill below the opening
+            base[y0 - 6:y0, x0 - 4:x1 + 4] = trim
+            base[y1:y1 + 5, x0 - 6:x1 + 6] = trim
+
             lit = r.random() < lit_ratio
             if lit:
-                color = lit_a if r.random() < 0.7 else lit_b
-                k = r.uniform(0.6, 1.1)
-                base[y0 + 6:y1 - 6, x0 + 6:x1 - 6] = [c * 0.5 for c in color]
-                emis[y0 + 6:y1 - 6, x0 + 6:x1 - 6] = [c * k for c in color]
-            else:
-                base[y0 + 6:y1 - 6, x0 + 6:x1 - 6] = [c * 0.35 for c in wall]
+                colour = lit_a if r.random() < 0.72 else lit_b
+                k = r.uniform(0.55, 1.15)
+                base[y0:y1, x0:x1] = [c * 0.35 for c in colour]
+                emis[y0:y1, x0:x1] = [min(1.0, c * k) for c in colour]
 
-    # horizontal floor band + cornice
+                # curtain / blind silhouette on some windows
+                if r.random() < 0.45:
+                    split = int((y1 - y0) * r.uniform(0.25, 0.6))
+                    base[y0:y0 + split, x0:x1] = [c * 0.22 for c in colour]
+                    emis[y0:y0 + split, x0:x1] *= 0.25
+                # a person-shaped shadow in a few windows
+                if r.random() < 0.12:
+                    px = r.randint(x0 + 4, max(x0 + 5, x1 - 8))
+                    py = r.randint(y0 + 8, max(y0 + 9, y1 - 10))
+                    base[py:y1 - 2, px:px + 6] = [c * 0.12 for c in colour]
+                    emis[py:y1 - 2, px:px + 6] *= 0.3
+            else:
+                base[y0:y1, x0:x1] = [c * 0.22 for c in wall]
+                # faint reflection so dark glass is not pure black
+                base[y0:y1, x0:x1] += np.linspace(0.06, 0.0, y1 - y0, dtype=np.float32)[:, None, None]
+
+            # window frame
+            base[y0:y1, x0:x0 + 2] = trim
+            base[y0:y1, x1 - 2:x1] = trim
+            base[y0:y0 + 2, x0:x1] = trim
+            base[y1 - 2:y1, x0:x1] = trim
+
+        # --- balcony band on some floors
+        if r.random() < 0.55:
+            by = (fy + 1) * ch - int(ch * 0.34)
+            base[by:by + 4, :] = trim
+            base[by + 4:by + 9, :] = [c * 0.75 for c in trim]
+            for rx in range(0, w, 10):
+                base[by - 10:by, rx:rx + 2] = [c * 0.6 for c in trim]
+
+        # --- AC units bolted to the facade
+        for _ in range(int(cols * 0.6)):
+            ax = r.randint(4, w - 40)
+            ay = fy * ch + int(ch * 0.62)
+            base[ay:ay + 16, ax:ax + 30] = [0.30, 0.30, 0.32]
+            base[ay + 2:ay + 14, ax + 2:ax + 28] = [0.22, 0.22, 0.24]
+            base[ay + 16:ay + 18, ax:ax + 30] = [0.18, 0.18, 0.20]
+            # rust streak under the unit
+            base[ay + 18:ay + 40, ax + 8:ax + 14] *= 0.86
+
+    # floor cornice lines
     for fy in range(floors + 1):
         y = min(h - 1, fy * ch)
-        base[y:y + 4, :] = trim
-    base[0:10, :] = trim
+        base[y:y + 5, :] = trim
+        base[y + 5:y + 7, :] *= 0.85
 
-    base = base[::-1]
-    emis = emis[::-1]
-    _save_png(base, w, h, os.path.join(TEX_DIR, f"{prefix}_base.png"), f"{prefix}_base")
-    _save_png(emis, w, h, os.path.join(TEX_DIR, f"{prefix}_emissive.png"), f"{prefix}_emissive")
+    base[0:12, :] = trim
+    base = np.clip(base, 0, 1)
+
+    _save_png(base[::-1], w, h, os.path.join(TEX_DIR, f"{prefix}_base.png"), f"{prefix}_base")
+    _save_png(emis[::-1], w, h, os.path.join(TEX_DIR, f"{prefix}_emissive.png"), f"{prefix}_emissive")
 
 
 def make_sky_texture():
@@ -173,6 +226,11 @@ def texture_mat(name, base_img, emis_img, strength=1.2, rough=0.7, metal=0.05):
     emis.image = emis_img
     emis.image.colorspace_settings.name = "sRGB"
     nt.links.new(base.outputs["Color"], bsdf.inputs["Base Color"])
+    bump = nt.nodes.new("ShaderNodeBump")
+    bump.inputs["Strength"].default_value = 0.18
+    bump.inputs["Distance"].default_value = 0.05
+    nt.links.new(base.outputs["Color"], bump.inputs["Height"])
+    nt.links.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
     nt.links.new(emis.outputs["Color"], bsdf.inputs["Emission Color"])
     nt.links.new(bsdf.outputs["BSDF"], out.inputs["Surface"])
     bsdf.inputs["Roughness"].default_value = rough
@@ -270,7 +328,9 @@ def sign_text(text, loc, rot, size, mat, extrude=0.04, mirror=False):
     ob = bpy.context.object
     ob.data.materials.append(mat)
     if mirror:
-        ob.scale.x = -1
+        # bake the flip into the mesh so it survives export
+        for v in ob.data.vertices:
+            v.co.x = -v.co.x
     ob.select_set(False)
     return ob
 

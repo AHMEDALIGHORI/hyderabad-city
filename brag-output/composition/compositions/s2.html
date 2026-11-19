@@ -10,23 +10,25 @@
     <link rel="stylesheet" href="assets/scene.css" />
   </head>
   <body>
-    <div id="root" data-composition-id="s2" data-start="0" data-duration="3.0" data-width="1920" data-height="1080">
+    <div id="root" data-composition-id="s2" data-start="0" data-duration="3.2" data-width="1920" data-height="1080">
       <img class="shot" id="s2-shot" src="assets/dusk.png" alt="Hyderabad, Sindh" />
       <div class="veil"></div>
       <div class="copy">
         <p class="kicker" id="s2-kicker">ELEVEN TOWNS</p>
         <h1 id="s2-title">One city.</h1>
-        <p class="sub" id="s2-sub">Eleven towns, each signed in Urdu.</p>
+        <p class="sub" id="s2-sub">Saddar to Phuleli, each signed in Urdu.</p>
       </div>
     </div>
     <script>
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#s2-shot", { scale: 1.12 }, { scale: 1.0, duration: 3.0, ease: "power1.out" }, 0);
+      tl.fromTo("#s2-shot", { scale: 1.1 }, { scale: 1.0, duration: 3.2, ease: "power1.out" }, 0);
       tl.fromTo("#s2-kicker", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.15);
       tl.fromTo("#s2-title", { opacity: 0, y: 34, filter: "blur(8px)" },
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.62, ease: "power4.out" }, 0.28);
       tl.fromTo('#s2-sub', { opacity: 0 }, { opacity: 1, duration: 0.45 }, 0.5);
+      
+      
       window.__timelines["s2"] = tl;
       tl.seek(0);
     </script>

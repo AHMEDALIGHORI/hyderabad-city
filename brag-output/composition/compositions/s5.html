@@ -10,23 +10,27 @@
     <link rel="stylesheet" href="assets/scene.css" />
   </head>
   <body>
-    <div id="root" data-composition-id="s5" data-start="0" data-duration="3.2" data-width="1920" data-height="1080">
-      <img class="shot" id="s5-shot" src="assets/night.png" alt="Hyderabad, Sindh" />
+    <div id="root" data-composition-id="s5" data-start="0" data-duration="6.8" data-width="1920" data-height="1080">
+      <img class="shot" id="s5-shot" src="assets/hero.png" alt="Hyderabad, Sindh" />
       <div class="veil"></div>
       <div class="copy">
-        <p class="kicker" id="s5-kicker">03 — AFTER DARK</p>
-        <h1 id="s5-title">Neon, rain, dust.</h1>
-        <p class="sub" id="s5-sub">A shader sky, three weathers.</p>
+        <p class="kicker" id="s5-kicker">BLENDER → GLTF → THREE.JS</p>
+        <h2 id="s5-title">Built in Blender.<br />Filmed in the browser.</h2>
+        <p class="sub" id="s5-sub">Eleven towns, eleven signs, one sunset.</p>
+        <p class="url" id="s5-url">ahmedalighori.github.io/hyderabad-city</p>
+        <span class="badge" id="s5-badge">11 towns · 147,732 faces · 2.9 MB</span>
       </div>
     </div>
     <script>
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#s5-shot", { scale: 1.12 }, { scale: 1.0, duration: 3.2, ease: "power1.out" }, 0);
+      tl.fromTo("#s5-shot", { scale: 1.1 }, { scale: 1.0, duration: 6.8, ease: "power1.out" }, 0);
       tl.fromTo("#s5-kicker", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.15);
       tl.fromTo("#s5-title", { opacity: 0, y: 34, filter: "blur(8px)" },
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.62, ease: "power4.out" }, 0.28);
       tl.fromTo('#s5-sub', { opacity: 0 }, { opacity: 1, duration: 0.45 }, 0.5);
+      tl.fromTo('#s5-url', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 1.1);
+      tl.fromTo('#s5-badge', { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.45, ease: 'back.out(2)' }, 1.45);
       window.__timelines["s5"] = tl;
       tl.seek(0);
     </script>

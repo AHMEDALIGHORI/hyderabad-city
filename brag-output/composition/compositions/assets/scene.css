@@ -47,3 +47,11 @@ h2 { font-family: var(--font-display); font-weight: 400; font-size: 104px; line-
   filter: blur(150px); opacity: 0.3; left: 50%; top: 50%; transform: translate(-50%, -50%);
   background: radial-gradient(circle, rgba(143,233,255,0.55), transparent 65%);
 }
+
+/* film exposure: keep the stills bright enough for a phone screen */
+.shot { opacity: 0.92 !important; }
+.veil {
+  background:
+    radial-gradient(120% 95% at 50% 45%, rgba(5,6,10,0.0) 40%, rgba(5,6,10,0.5) 100%),
+    linear-gradient(to bottom, rgba(5,6,10,0.55) 0%, rgba(5,6,10,0.05) 38%, rgba(5,6,10,0.6) 100%) !important;
+}

@@ -6,6 +6,7 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { createGradePass } from './grade.js';
 import { createSky } from './sky.js';
 import { createTraffic, createPedestrians, createTrafficLights } from './life.js';
 import { createProps } from './props.js';
@@ -57,6 +58,8 @@ const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
 const bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.34, 0.6, 0.84);
 composer.addPass(bloom);
+const grade = createGradePass();
+composer.addPass(grade);
 composer.addPass(new OutputPass());
 
 const sky = createSky(scene);
@@ -160,6 +163,7 @@ function showDistrict(district) {
 }
 
 function updateTour(dt) {
+  if (window.__tourPaused) return;
   if (!tour.paused) tour.t = (tour.t + dt / tour.duration) % 1;
   const t = tour.t;
 
@@ -215,6 +219,7 @@ function loop() {
 
   updateTour(dt);
   sky.update(elapsed);
+  grade.uniforms.uTime.value = elapsed;
   trafficLights.update(dt);
   traffic.update(dt);
   pedestrians.update(dt, elapsed);
@@ -235,6 +240,13 @@ window.addEventListener('resize', () => {
 camera.position.set(120, 90, 120);
 camera.lookAt(0, 10, 0);
 loop();
+
+/* test hook: park the camera somewhere for a still */
+window.__look = (x, y, z, tx, ty, tz) => {
+  if (!window.__tourPaused) { tour.paused = true; window.__tourPaused = true; }
+  camera.position.set(x, y, z);
+  camera.lookAt(tx, ty, tz);
+};
 
 /* test hook: jump the film to a moment */
 window.__seek = (t) => {
