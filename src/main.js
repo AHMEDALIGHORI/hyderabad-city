@@ -8,6 +8,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { createSky } from './sky.js';
 import { createTraffic, createPedestrians } from './life.js';
 import { createProps } from './props.js';
+import { createSoundscape } from './audio.js';
 
 const canvas = document.getElementById('scene');
 const loaderEl = document.getElementById('loader');
@@ -59,6 +60,8 @@ const sky = createSky(scene);
 const traffic = createTraffic(scene, { count: 16 });
 const pedestrians = createPedestrians(scene, { count: 22 });
 const props = createProps(scene);
+const sound = createSoundscape();
+window.__sound = sound;
 
 /* ----------------------------------------------------------------- player */
 
@@ -71,9 +74,19 @@ const player = {
 };
 const keys = new Set();
 const BOUND = 200;
+let walked = 0;
 const intro = { active: true, t: 0 };
 
 /* ------------------------------------------------------------------ input */
+
+let audioArmed = false;
+function armAudio() {
+  if (audioArmed) return;
+  audioArmed = true;
+  sound.enable().catch(() => {});
+}
+window.addEventListener('pointerdown', armAudio, { once: true });
+window.addEventListener('keydown', armAudio, { once: true });
 
 canvas.addEventListener('pointerdown', (event) => {
   canvas.setPointerCapture(event.pointerId);
@@ -101,6 +114,7 @@ window.addEventListener('keydown', (event) => {
   keys.add(k);
   if (k === 'shift') player.sprint = true;
   if (k === 'n') toggleNeon();
+  if (k === 'm') sound.toggle();
   if (k === 'r') resetPlayer();
 });
 window.addEventListener('keyup', (event) => {
@@ -249,6 +263,15 @@ function updatePlayer(dt) {
   );
   camera.lookAt(player.pos.clone().add(look));
 
+  if (moving) {
+    walked += player.vel.length() * dt;
+    const stride = player.sprint ? 1.15 : 0.72;
+    if (walked >= stride) {
+      walked = 0;
+      sound.step(1, player.sprint);
+    }
+  }
+
   const kmh = Math.round(player.vel.length() * 3.6 * 1.6);
   speedEl.textContent = moving ? `${kmh} KM/H` : '';
   compassNeedle.style.transform = `rotate(${-player.yaw}rad)`;
@@ -319,6 +342,7 @@ function loop() {
   traffic.update(dt);
   pedestrians.update(dt, elapsed);
   props.update(dt, elapsed);
+  sound.update(dt);
   drawRadar();
   composer.render();
   requestAnimationFrame(loop);
