@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Hyderabad — Sindh, after sunset</title>
+    <meta
+      name="description"
+      content="A stylised Hyderabad, Sindh — Vice City sunset, San Andreas street level. Built in Blender, walked in the browser."
+    />
+    <meta name="theme-color" content="#1a0b18" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <canvas id="scene"></canvas>
+
+    <div id="grain" aria-hidden="true"></div>
+    <div id="vignette" aria-hidden="true"></div>
+
+    <header id="hud-top">
+      <div class="plate">
+        <span class="city">HYDERABAD</span>
+        <span class="region">SINDH · PAKISTAN</span>
+      </div>
+      <div class="clock" id="clock">00:00</div>
+    </header>
+
+    <div id="compass" aria-hidden="true"><span id="compass-needle"></span></div>
+
+    <div id="hud-bottom">
+      <div class="controls">
+        <span><b>W A S D</b> walk</span>
+        <span><b>SHIFT</b> run</span>
+        <span><b>DRAG</b> look</span>
+        <span><b>N</b> neon</span>
+        <span><b>R</b> reset</span>
+      </div>
+      <div class="speed" id="speed"></div>
+    </div>
+
+    <div id="radar">
+      <canvas id="radar-canvas" width="240" height="240"></canvas>
+      <div class="radar-label">LATIFABAD · UNIT 7</div>
+    </div>
+
+    <div id="loader">
+      <div class="loader-inner">
+        <span class="badge">AFTER SUNSET</span>
+        <h1>Hyderabad</h1>
+        <div class="bar"><i id="loader-fill"></i></div>
+        <span class="pct" id="loader-pct">0%</span>
+      </div>
+    </div>
+
+    <div id="intro-note" hidden>Click to take the wheel</div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

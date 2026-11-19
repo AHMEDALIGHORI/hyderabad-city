@@ -1,0 +1,19 @@
+{
+  "name": "hyderabad-city",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Hyderabad, Sindh — a Vice City sunset with a San Andreas street level, built in Blender for the web.",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5190",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4190",
+    "shot": "node scripts/shot.mjs"
+  },
+  "dependencies": {
+    "three": "*"
+  },
+  "devDependencies": {
+    "vite": "*"
+  }
+}
