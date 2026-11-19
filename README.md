@@ -4,6 +4,9 @@ A stylised, walkable Hyderabad built procedurally in Blender and rendered in the
 browser with Three.js. Vice City sunset palette, San Andreas street level: named
 shopfronts, a food street, a bazaar, rickshaws and a clock tower.
 
+**Live:** https://ahmedalighori.github.io/hyderabad-city/
+**Repo:** https://github.com/AHMEDALIGHORI/hyderabad-city
+
 **Run it**
 
 ```bash
@@ -12,7 +15,25 @@ pnpm install
 pnpm dev        # http://127.0.0.1:5190
 ```
 
-**Controls** — `W A S D` walk · `Shift` run · drag to look · `N` neon · `R` reset.
+**Controls**
+
+| Key | Action |
+|---|---|
+| `W A S D` | walk (or throttle/steer while driving) |
+| `Shift` | run |
+| drag | look |
+| `E` | take / leave the rickshaw |
+| `F` | photo mode (hide HUD, orbit, zoom) |
+| `T` | cycle light: sunset → night → dawn |
+| `Y` | cycle weather: clear → rain → dust |
+| `B` | radio: off → 3 procedural stations |
+| `N` | neon on/off |
+| `M` | mute the city mix |
+| `R` | reset position |
+
+**Also in:** block-and-building collision, five chai spots to find (HUD counter),
+traffic on the road grid, pedestrians with a real gait, animals, trees, bicycles,
+and destination buildings (mall, dhaba, gym, shoes).
 
 ## What is in the city
 
@@ -60,5 +81,8 @@ public/textures/*.png     generated facades, road, sand, sky
   Blender, so they can move; they have no collision with the player.
 - The mall/dhaba/gym/shoes buildings are separate from the Blender city and sit
   outside the block grid (at ±96 m).
-- 19.4 MB glb: fine over localhost or a LAN, heavy on a phone. Draco or mesh
-  simplification would cut it.
+- **19.4 MB glb** — not compressed yet; Draco is the next win.
+- **Some shop signs are mirrored** from one side of the street (text orientation on
+  north-facing shopfronts).
+- Not built yet: shop interiors, traffic lights that stop cars, mobile touch
+  controls, Urdu/Sindhi signage, a night market, instanced props, OG image.
