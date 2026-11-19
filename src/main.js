@@ -9,6 +9,8 @@ import { createSky } from './sky.js';
 import { createTraffic, createPedestrians } from './life.js';
 import { createProps } from './props.js';
 import { createSoundscape } from './audio.js';
+import { createRadio } from './radio.js';
+import { createSystems } from './systems.js';
 
 const canvas = document.getElementById('scene');
 const loaderEl = document.getElementById('loader');
@@ -61,7 +63,9 @@ const traffic = createTraffic(scene, { count: 16 });
 const pedestrians = createPedestrians(scene, { count: 22 });
 const props = createProps(scene);
 const sound = createSoundscape();
+const radio = createRadio();
 window.__sound = sound;
+window.__radio = radio;
 
 /* ----------------------------------------------------------------- player */
 
@@ -115,6 +119,18 @@ window.addEventListener('keydown', (event) => {
   if (k === 'shift') player.sprint = true;
   if (k === 'n') toggleNeon();
   if (k === 'm') sound.toggle();
+  if (k === 'e') systems.toggleDrive();
+  if (k === 'f') systems.togglePhoto();
+  if (k === 't') systems.cycleTime();
+  if (k === 'y') systems.cycleWeather();
+  if (k === 'b') radio.next().then((name) => {
+    let el = document.getElementById('toast');
+    if (!el) { el = document.createElement('div'); el.id = 'toast'; document.body.appendChild(el); }
+    el.textContent = `Radio: ${name}`;
+    el.dataset.show = 'true';
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.dataset.show = 'false'; }, 2600);
+  });
   if (k === 'r') resetPlayer();
 });
 window.addEventListener('keyup', (event) => {
@@ -213,6 +229,35 @@ gltfLoader.load(
 );
 
 /* ----------------------------------------------------------------- render */
+
+const systems = createSystems({
+  scene,
+  camera,
+  player,
+  keys,
+  sky,
+  sound,
+  radio,
+  onToast: (message) => {
+    let el = document.getElementById('toast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'toast';
+      document.body.appendChild(el);
+    }
+    el.textContent = message;
+    el.dataset.show = 'true';
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.dataset.show = 'false'; }, 2800);
+  },
+  onHud: ({ chai }) => {
+    const box = document.getElementById('mission');
+    const count = document.getElementById('mission-count');
+    if (box) box.hidden = false;
+    if (count) count.textContent = String(chai);
+  },
+});
+window.__systems = systems;
 
 const clock = new THREE.Clock();
 let elapsed = 0;
@@ -337,7 +382,12 @@ tickClock();
 function loop() {
   const dt = Math.min(0.05, clock.getDelta());
   elapsed += dt;
-  updatePlayer(dt);
+  if (systems.driving || systems.photo) {
+    systems.update(dt, elapsed);
+  } else {
+    updatePlayer(dt);
+    systems.update(dt, elapsed);
+  }
   sky.update(elapsed);
   traffic.update(dt);
   pedestrians.update(dt, elapsed);

@@ -292,3 +292,57 @@ body {
     display: none;
   }
 }
+
+/* mission tracker + toast */
+#mission {
+  position: fixed;
+  z-index: 11;
+  left: 26px;
+  top: 96px;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 233, 214, 0.75);
+  background: var(--panel);
+  border: 1px solid rgba(255, 79, 163, 0.35);
+  border-radius: 999px;
+  padding: 8px 14px;
+}
+
+#mission b {
+  color: var(--cyan);
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 15px;
+}
+
+#toast {
+  position: fixed;
+  z-index: 30;
+  left: 50%;
+  bottom: 84px;
+  transform: translate(-50%, 12px);
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 79, 163, 0.4);
+  background: rgba(20, 8, 18, 0.92);
+  color: #ffe9d6;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#toast[data-show='true'] {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+body[data-photo='true'] #hud-top,
+body[data-photo='true'] #hud-bottom,
+body[data-photo='true'] #radar,
+body[data-photo='true'] #compass,
+body[data-photo='true'] #mission {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}

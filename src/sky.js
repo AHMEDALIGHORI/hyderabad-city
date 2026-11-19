@@ -97,6 +97,7 @@ export function createSky(scene, { sunDirection = new THREE.Vector3(-0.85, 0.18,
 
   return {
     mesh,
+    uniforms,
     update(t) {
       uniforms.uTime.value = t;
     },
