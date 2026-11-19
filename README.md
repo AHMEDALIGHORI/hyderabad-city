@@ -23,7 +23,9 @@ pnpm dev        # http://127.0.0.1:5190
 | Food street | 8 restaurants with marquee signs, tables, stools and string lights |
 | Bazaar | 8 canopy stalls with goods, cloth overhead |
 | Landmarks | Pakka Qila gate, clock tower with HYDERABAD sign, mosque (dome + two minarets), cinema with marquee and posters, bus stand, petrol pump, Sadar Bazaar gate |
-| Street life | auto-rickshaws, sedans, street lamps, palm trees, waterfront railing and a bridge |
+| Street life | moving auto-rickshaws and sedans with headlights, 22 walking pedestrians, 46 trees, 10 bicycles, 12 animals (cows, goats, dogs), street lamps, palms, waterfront railing and a bridge |
+| Destinations | Hyderabad Mall, a roadside Dhaba with charpais and a clay oven, a Gym, a Shoes shop — each with a glowing canvas sign |
+| Sky | custom shader: sunset gradient, sun disc with glow, drifting cloud bands |
 | World | sunset sky dome, sun disc, sea to the west |
 
 **Scene facts:** 147,732 faces · merged to 75 draw calls · glTF **19.4 MB** ·
@@ -54,6 +56,9 @@ public/textures/*.png     generated facades, road, sand, sky
 - The sky is a gradient dome; low fog plus the dome's own falloff keeps it fairly flat
   at street level. A proper sky shader would give a real sun and clouds.
 - Buildings are stylised slabs with generated window grids, not bespoke architecture.
-- No moving traffic or pedestrians yet — the cars and rickshaws are parked.
+- Traffic, pedestrians, animals and bicycles are generated in the browser, not in
+  Blender, so they can move; they have no collision with the player.
+- The mall/dhaba/gym/shoes buildings are separate from the Blender city and sit
+  outside the block grid (at ±96 m).
 - 19.4 MB glb: fine over localhost or a LAN, heavy on a phone. Draco or mesh
   simplification would cut it.

@@ -5,6 +5,9 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { createSky } from './sky.js';
+import { createTraffic, createPedestrians } from './life.js';
+import { createProps } from './props.js';
 
 const canvas = document.getElementById('scene');
 const loaderEl = document.getElementById('loader');
@@ -51,6 +54,11 @@ const bloom = new UnrealBloomPass(
 );
 composer.addPass(bloom);
 composer.addPass(new OutputPass());
+
+const sky = createSky(scene);
+const traffic = createTraffic(scene, { count: 16 });
+const pedestrians = createPedestrians(scene, { count: 22 });
+const props = createProps(scene);
 
 /* ----------------------------------------------------------------- player */
 
@@ -100,6 +108,14 @@ window.addEventListener('keyup', (event) => {
   keys.delete(k);
   if (k === 'shift') player.sprint = false;
 });
+
+// test hook: jump to a spot in the city
+window.__tp = (x, z, yaw = 0) => {
+  intro.active = false;
+  player.pos.set(x, 1.7, z);
+  player.yaw = yaw;
+  player.vel.set(0, 0, 0);
+};
 
 function resetPlayer() {
   player.pos.set(-23, 1.7, 34);
@@ -151,10 +167,7 @@ gltfLoader.load(
         if (mat.map) mat.map.anisotropy = 4;
       }
       nodes.push(child);
-      if (child.name === 'SkyDome' || child.name === 'SunDisc') {
-        const mats = Array.isArray(child.material) ? child.material : [child.material];
-        for (const m of mats) if (m) m.fog = false;
-      }
+      if (child.name === 'SkyDome' || child.name === 'SunDisc') child.visible = false;
     });
 
     // the awnings and neon bars read as pure white when bloom hits them
@@ -302,6 +315,10 @@ function loop() {
   const dt = Math.min(0.05, clock.getDelta());
   elapsed += dt;
   updatePlayer(dt);
+  sky.update(elapsed);
+  traffic.update(dt);
+  pedestrians.update(dt, elapsed);
+  props.update(dt, elapsed);
   drawRadar();
   composer.render();
   requestAnimationFrame(loop);
