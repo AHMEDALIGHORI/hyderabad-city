@@ -1,0 +1,12 @@
+Hyderabad, Sindh — after sunset
+A cinematic 3D portrait, built in Blender, filmed in the browser.
+
+Eleven towns: Saddar, Latifabad, Qasimabad, Hirabad, GOR Colony, Auto Bhan,
+S.I.T.E., Paretabad, Phuleli, Bhitai Nagar, Tando Yousaf.
+
+Not a game — a camera that drives itself between the districts while each card
+names the town in English and Urdu.
+
+147,732 faces · 817 KB glTF (Draco) · one sunset.
+
+Live: https://ahmedalighori.github.io/hyderabad-city/

@@ -346,3 +346,150 @@ body[data-photo='true'] #mission {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
+
+/* touch controls: only on coarse pointers */
+#touch-ui { display: none; }
+
+@media (hover: none) and (pointer: coarse) {
+  #touch-ui {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 14;
+    pointer-events: none;
+  }
+
+  #stick {
+    position: absolute;
+    left: 26px;
+    bottom: 92px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 79, 163, 0.5);
+    background: rgba(20, 8, 18, 0.45);
+    pointer-events: auto;
+    touch-action: none;
+  }
+
+  #stick-knob {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 46px;
+    height: 46px;
+    margin: -23px 0 0 -23px;
+    border-radius: 50%;
+    background: rgba(143, 233, 255, 0.7);
+    box-shadow: 0 0 18px rgba(79, 227, 255, 0.6);
+  }
+
+  #touch-actions {
+    position: absolute;
+    right: 22px;
+    bottom: 96px;
+    display: grid;
+    gap: 10px;
+    pointer-events: auto;
+  }
+
+  #touch-actions button {
+    font: inherit;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #ffe9d6;
+    background: rgba(20, 8, 18, 0.7);
+    border: 1px solid rgba(255, 79, 163, 0.45);
+    border-radius: 999px;
+    padding: 12px 16px;
+  }
+}
+
+
+/* ------------------------------------------------- cinema: district card */
+
+#district-card {
+  position: fixed;
+  z-index: 12;
+  left: 26px;
+  bottom: 88px;
+  max-width: 460px;
+  padding: 18px 22px 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 79, 163, 0.3);
+  background: linear-gradient(160deg, rgba(24, 9, 22, 0.86), rgba(12, 4, 12, 0.7));
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#district-card[data-show='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+#district-card .urdu {
+  display: block;
+  font-size: 22px;
+  color: rgba(255, 206, 106, 0.85);
+  margin-bottom: 4px;
+  direction: rtl;
+}
+
+#district-card h2 {
+  margin: 0 0 8px;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1;
+  color: #fff3e4;
+}
+
+#district-card p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: rgba(255, 233, 214, 0.72);
+}
+
+/* ------------------------------------------------------------ progress */
+
+#progress {
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: rgba(255, 233, 214, 0.08);
+}
+
+#progress i {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, #ff4fa3, #ffce6a);
+  box-shadow: 0 0 14px rgba(255, 79, 163, 0.7);
+  transition: width 0.25s linear;
+}
+
+/* --------------------------------------------------------------- sound */
+
+#sound-btn {
+  position: fixed;
+  z-index: 12;
+  right: 26px;
+  bottom: 30px;
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffe9d6;
+  background: rgba(20, 8, 18, 0.7);
+  border: 1px solid rgba(255, 79, 163, 0.45);
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+}

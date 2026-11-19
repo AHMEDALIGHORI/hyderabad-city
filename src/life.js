@@ -109,7 +109,53 @@ function buildSedan(rng) {
   return group;
 }
 
-export function createTraffic(scene, { count = 16 } = {}) {
+function buildBus(rng) {
+  const group = new THREE.Group();
+  const body = new THREE.Mesh(
+    new THREE.BoxGeometry(9, 2.6, 2.4),
+    new THREE.MeshStandardMaterial({ color: rng.pick([0x2a5a8a, 0x8a2a2a, 0xd8cfb8]), roughness: 0.55, metalness: 0.3 }),
+  );
+  body.position.y = 1.5;
+  group.add(body);
+  const glass = new THREE.Mesh(
+    new THREE.BoxGeometry(8.2, 0.9, 2.45),
+    new THREE.MeshStandardMaterial({ color: 0x1a2a33, roughness: 0.2, metalness: 0.6 }),
+  );
+  glass.position.y = 2.1;
+  group.add(glass);
+  const dark = new THREE.MeshStandardMaterial({ color: 0x101014, roughness: 0.7 });
+  for (const [x, z] of [[-3.2, 1.2], [3.2, 1.2], [-3.2, -1.2], [3.2, -1.2]]) {
+    const w = makeWheel(0.5, 0.28, dark);
+    w.position.set(x, 0.5, z);
+    group.add(w);
+  }
+  return group;
+}
+
+function buildTruck(rng) {
+  const group = new THREE.Group();
+  const cab = new THREE.Mesh(
+    new THREE.BoxGeometry(2.6, 2.3, 2.3),
+    new THREE.MeshStandardMaterial({ color: rng.pick([0xd8d2c4, 0x3a6a4a, 0x8a3a2a]), roughness: 0.5, metalness: 0.3 }),
+  );
+  cab.position.set(3.2, 1.4, 0);
+  group.add(cab);
+  const bed = new THREE.Mesh(
+    new THREE.BoxGeometry(7, 2.6, 2.4),
+    new THREE.MeshStandardMaterial({ color: 0x6a5a4a, roughness: 0.9 }),
+  );
+  bed.position.set(-1.6, 1.6, 0);
+  group.add(bed);
+  const dark = new THREE.MeshStandardMaterial({ color: 0x101014, roughness: 0.7 });
+  for (const [x, z] of [[3.2, 1.15], [-3.4, 1.15], [-1.6, 1.15], [3.2, -1.15], [-3.4, -1.15], [-1.6, -1.15]]) {
+    const w = makeWheel(0.46, 0.24, dark);
+    w.position.set(x, 0.46, z);
+    group.add(w);
+  }
+  return group;
+}
+
+export function createTraffic(scene, { count = 16, lights = null } = {}) {
   const rng = rngFrom(20261120);
   const lanes = [];
   for (let i = -3; i <= 3; i += 1) {
@@ -120,8 +166,12 @@ export function createTraffic(scene, { count = 16 } = {}) {
   const cars = [];
   for (let i = 0; i < count; i += 1) {
     const lane = lanes[Math.floor(rng.next() * lanes.length)];
-    const isRickshaw = rng.next() < 0.45;
-    const mesh = isRickshaw ? buildRickshaw(rng) : buildSedan(rng);
+    const roll = rng.next();
+    const isRickshaw = roll < 0.42;
+    const isBus = !isRickshaw && roll > 0.9;
+    const isTruck = !isRickshaw && roll > 0.78 && roll <= 0.9;
+    const mesh = isRickshaw ? buildRickshaw(rng) : isBus ? buildBus(rng) : isTruck ? buildTruck(rng) : buildSedan(rng);
+    const longVehicle = isBus || isTruck;
     const direction = rng.next() < 0.5 ? 1 : -1;
     const offset = (rng.next() < 0.5 ? 1 : -1) * 3.2;
     const start = rng.uniform(-BOUND, BOUND);
@@ -135,14 +185,35 @@ export function createTraffic(scene, { count = 16 } = {}) {
     }
 
     scene.add(mesh);
-    cars.push({ mesh, lane, direction, speed: rng.uniform(8, 16) * (isRickshaw ? 0.8 : 1) });
+    cars.push({
+      mesh,
+      lane,
+      direction,
+      speed: rng.uniform(8, 16) * (isRickshaw ? 0.8 : longVehicle ? 0.7 : 1),
+      longVehicle,
+    });
   }
 
   return {
     update(dt) {
       for (const car of cars) {
         const axis = car.lane.axis;
-        car.mesh.position[axis] += car.speed * car.direction * dt;
+        const pos = car.mesh.position[axis];
+        let allowed = true;
+
+        // stop at a red light: find the next junction ahead within 9 m
+        if (lights) {
+          const red = lights.redFor(axis);
+          if (red) {
+            const spacing = PITCH;
+            const ahead = car.direction > 0
+              ? ((Math.floor((pos + 24) / spacing) + 1) * spacing - 24) - pos
+              : pos - ((Math.ceil((pos + 24) / spacing) - 1) * spacing - 24);
+            if (ahead > 0 && ahead < 9) allowed = false;
+          }
+        }
+
+        if (allowed) car.mesh.position[axis] += car.speed * car.direction * dt;
         if (car.mesh.position[axis] > BOUND) car.mesh.position[axis] = -BOUND;
         if (car.mesh.position[axis] < -BOUND) car.mesh.position[axis] = BOUND;
       }
@@ -315,6 +386,83 @@ export function createPedestrians(scene, { count = 26 } = {}) {
         const bob = Math.abs(Math.sin(p.phase)) * 0.028;
         p.mesh.position.y = 0.16 + bob;
         p.mesh.rotation.z = Math.sin(p.phase) * 0.02;
+      }
+    },
+  };
+}
+
+
+/* --------------------------------------------------------- traffic lights */
+
+export function createTrafficLights(scene, { spacing = PITCH, radius = 2 } = {}) {
+  const poles = [];
+  const lampGeo = new THREE.SphereGeometry(0.18, 10, 8);
+  const mk = (hex, intensity) =>
+    new THREE.MeshStandardMaterial({ color: hex, emissive: hex, emissiveIntensity: intensity });
+
+  const redMat = mk(0xff2020, 0.15);
+  const amberMat = mk(0xffb020, 0.15);
+  const greenMat = mk(0x30ff70, 0.15);
+
+  const offsets = [];
+  for (let i = -radius; i <= radius; i += 1) {
+    for (let j = -radius; j <= radius; j += 1) {
+      offsets.push([i * spacing + ROAD_OFFSET, j * spacing + ROAD_OFFSET]);
+    }
+  }
+
+  const dark = new THREE.MeshStandardMaterial({ color: 0x16161a, roughness: 0.7, metalness: 0.5 });
+  for (const [x, z] of offsets) {
+    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.12, 4.2, 8), dark);
+    pole.position.set(x - 3.4, 2.1, z - 3.4);
+    scene.add(pole);
+
+    const box = new THREE.Mesh(new THREE.BoxGeometry(0.34, 1.05, 0.34), dark);
+    box.position.set(x - 3.4, 4.4, z - 3.4);
+    scene.add(box);
+
+    const lamps = [];
+    [redMat, amberMat, greenMat].forEach((mat, i) => {
+      const lamp = new THREE.Mesh(lampGeo, mat.clone());
+      lamp.position.set(x - 3.4, 4.72 - i * 0.3, z - 3.4 + 0.2);
+      scene.add(lamp);
+      lamps.push(lamp);
+    });
+    poles.push(lamps);
+  }
+
+  let phase = 0; // 0: NS green, 1: NS amber, 2: EW green, 3: EW amber
+  let timer = 0;
+  const DURATIONS = [8, 1.6, 8, 1.6];
+
+  function apply() {
+    const nsGreen = phase === 0;
+    const nsAmber = phase === 1;
+    const ewGreen = phase === 2;
+    const ewAmber = phase === 3;
+    for (const lamps of poles) {
+      // both approaches share one head here: red means "stop this axis"
+      lamps[0].material.emissiveIntensity = ewGreen || ewAmber ? 2.6 : 0.12;
+      lamps[1].material.emissiveIntensity = nsAmber || ewAmber ? 2.6 : 0.12;
+      lamps[2].material.emissiveIntensity = nsGreen || ewGreen ? 2.6 : 0.12;
+    }
+  }
+  apply();
+
+  return {
+    /** true when cars travelling along `axis` must stop */
+    redFor(axis) {
+      return axis === 'z' ? phase === 2 || phase === 3 : phase === 0 || phase === 1;
+    },
+    phaseName() {
+      return ['NS green', 'NS amber', 'EW green', 'EW amber'][phase];
+    },
+    update(dt) {
+      timer += dt;
+      if (timer >= DURATIONS[phase]) {
+        timer = 0;
+        phase = (phase + 1) % 4;
+        apply();
       }
     },
   };

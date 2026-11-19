@@ -254,7 +254,7 @@ def plane(name, size, loc, rot, mat):
     return ob
 
 
-def sign_text(text, loc, rot, size, mat, extrude=0.04):
+def sign_text(text, loc, rot, size, mat, extrude=0.04, mirror=False):
     curve = bpy.data.curves.new(text, type="FONT")
     curve.body = text
     curve.size = size
@@ -269,6 +269,8 @@ def sign_text(text, loc, rot, size, mat, extrude=0.04):
     bpy.ops.object.convert(target="MESH")
     ob = bpy.context.object
     ob.data.materials.append(mat)
+    if mirror:
+        ob.scale.x = -1
     ob.select_set(False)
     return ob
 
@@ -551,7 +553,7 @@ def build_shopfront(b, index, named=True):
     if named:
         text_rot = (math.radians(90), 0, 0) if facing < 0 else (math.radians(-90), 0, math.pi)
         sign_text(name, (x, face_y + facing * 0.30, 3.55), text_rot,
-                  min(0.62, w * 0.12), neon, extrude=0.03)
+                  min(0.62, w * 0.12), neon, extrude=0.03, mirror=(facing > 0))
     else:
         box(f"Shop_{index}_stripe", (w * 0.86, 0.08, 0.10),
             (x, face_y + facing * 0.30, 3.55), neon)

@@ -1,26 +1,33 @@
 import './styles.css';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { createSky } from './sky.js';
-import { createTraffic, createPedestrians } from './life.js';
+import { createTraffic, createPedestrians, createTrafficLights } from './life.js';
 import { createProps } from './props.js';
 import { createSoundscape } from './audio.js';
-import { createRadio } from './radio.js';
-import { createSystems } from './systems.js';
+import { DISTRICTS, createDistrictSigns } from './districts.js';
+
+/**
+ * A cinematic fly-through of Hyderabad, Sindh — no controls, no gameplay.
+ * The camera drifts between the eleven towns while the district cards change.
+ */
 
 const canvas = document.getElementById('scene');
 const loaderEl = document.getElementById('loader');
 const loaderFill = document.getElementById('loader-fill');
 const loaderPct = document.getElementById('loader-pct');
-const speedEl = document.getElementById('speed');
-const compassNeedle = document.getElementById('compass-needle');
 const clockEl = document.getElementById('clock');
-const radar = document.getElementById('radar-canvas');
-const radarCtx = radar.getContext('2d');
+const cardEl = document.getElementById('district-card');
+const dName = document.getElementById('d-name');
+const dUrdu = document.getElementById('d-urdu');
+const dNote = document.getElementById('d-note');
+const progressFill = document.getElementById('progress-fill');
+const soundBtn = document.getElementById('sound-btn');
 
 const MODEL = `${import.meta.env.BASE_URL}models/hyderabad.glb`;
 
@@ -31,369 +38,189 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight, false);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.12;
+renderer.toneMappingExposure = 1.05;
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x2a1026);
-scene.fog = new THREE.FogExp2(0x5a2038, 0.0006);
+scene.background = new THREE.Color(0x1a0b18);
+scene.fog = new THREE.FogExp2(0x5a2038, 0.0007);
 
-const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.1, 6000);
+const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 6000);
 
-// sunset light rig
-const hemi = new THREE.HemisphereLight(0xff8fb0, 0x2a1220, 0.85);
-const sun = new THREE.DirectionalLight(0xff9a5c, 2.4);
-sun.position.set(-180, 90, 120);
-const rim = new THREE.DirectionalLight(0x6fa8ff, 0.8);
-rim.position.set(160, 60, -140);
+const hemi = new THREE.HemisphereLight(0xff8fb0, 0x2a1220, 0.7);
+const sun = new THREE.DirectionalLight(0xff9a5c, 2.6);
+sun.position.set(-180, 70, 120);
+const rim = new THREE.DirectionalLight(0x7fa8ff, 0.7);
+rim.position.set(160, 50, -140);
 scene.add(hemi, sun, rim);
 
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
-const bloom = new UnrealBloomPass(
-  new THREE.Vector2(window.innerWidth, window.innerHeight),
-  0.38,
-  0.6,
-  0.82,
-);
+const bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.34, 0.6, 0.84);
 composer.addPass(bloom);
 composer.addPass(new OutputPass());
 
 const sky = createSky(scene);
-const traffic = createTraffic(scene, { count: 16 });
-const pedestrians = createPedestrians(scene, { count: 22 });
+const trafficLights = createTrafficLights(scene);
+const traffic = createTraffic(scene, { count: 20, lights: trafficLights });
+const pedestrians = createPedestrians(scene, { count: 26 });
 const props = createProps(scene);
+createDistrictSigns(scene);
 const sound = createSoundscape();
-const radio = createRadio();
-window.__sound = sound;
-window.__radio = radio;
-
-/* ----------------------------------------------------------------- player */
-
-const player = {
-  pos: new THREE.Vector3(-23, 1.7, 34),
-  vel: new THREE.Vector3(),
-  yaw: 0.05,
-  pitch: -0.04,
-  sprint: false,
-};
-const keys = new Set();
-const BOUND = 200;
-let walked = 0;
-const intro = { active: true, t: 0 };
-
-/* ------------------------------------------------------------------ input */
-
-let audioArmed = false;
-function armAudio() {
-  if (audioArmed) return;
-  audioArmed = true;
-  sound.enable().catch(() => {});
-}
-window.addEventListener('pointerdown', armAudio, { once: true });
-window.addEventListener('keydown', armAudio, { once: true });
-
-canvas.addEventListener('pointerdown', (event) => {
-  canvas.setPointerCapture(event.pointerId);
-  drag.active = true;
-  drag.x = event.clientX;
-  drag.y = event.clientY;
-});
-const drag = { active: false, x: 0, y: 0 };
-
-window.addEventListener('pointerup', () => {
-  drag.active = false;
-});
-window.addEventListener('pointermove', (event) => {
-  if (!drag.active) return;
-  const dx = event.clientX - drag.x;
-  const dy = event.clientY - drag.y;
-  drag.x = event.clientX;
-  drag.y = event.clientY;
-  player.yaw -= dx * 0.0032;
-  player.pitch = THREE.MathUtils.clamp(player.pitch - dy * 0.0026, -0.7, 0.6);
-});
-
-window.addEventListener('keydown', (event) => {
-  const k = event.key.toLowerCase();
-  keys.add(k);
-  if (k === 'shift') player.sprint = true;
-  if (k === 'n') toggleNeon();
-  if (k === 'm') sound.toggle();
-  if (k === 'e') systems.toggleDrive();
-  if (k === 'f') systems.togglePhoto();
-  if (k === 't') systems.cycleTime();
-  if (k === 'y') systems.cycleWeather();
-  if (k === 'b') radio.next().then((name) => {
-    let el = document.getElementById('toast');
-    if (!el) { el = document.createElement('div'); el.id = 'toast'; document.body.appendChild(el); }
-    el.textContent = `Radio: ${name}`;
-    el.dataset.show = 'true';
-    clearTimeout(el._t);
-    el._t = setTimeout(() => { el.dataset.show = 'false'; }, 2600);
-  });
-  if (k === 'r') resetPlayer();
-});
-window.addEventListener('keyup', (event) => {
-  const k = event.key.toLowerCase();
-  keys.delete(k);
-  if (k === 'shift') player.sprint = false;
-});
-
-// test hook: jump to a spot in the city
-window.__tp = (x, z, yaw = 0) => {
-  intro.active = false;
-  player.pos.set(x, 1.7, z);
-  player.yaw = yaw;
-  player.vel.set(0, 0, 0);
-};
-
-function resetPlayer() {
-  player.pos.set(-23, 1.7, 34);
-  player.yaw = 0.05;
-  player.pitch = -0.02;
-  player.vel.set(0, 0, 0);
-}
-
-/* ------------------------------------------------------------------- neon */
-
-let neonOn = true;
-const neonMats = [];
-
-function toggleNeon() {
-  neonOn = !neonOn;
-  for (const mat of neonMats) {
-    mat.emissiveIntensity = neonOn ? mat.userData.base : mat.userData.base * 0.22;
-  }
-  bloom.strength = neonOn ? 0.38 : 0.16;
-  renderer.toneMappingExposure = neonOn ? 1.12 : 1.0;
-  scene.fog.color.setHex(neonOn ? 0x4a1a35 : 0x2a1830);
-}
 
 /* ------------------------------------------------------------------- load */
 
-const nodes = [];
-let model = null;
-
-const gltfLoader = new GLTFLoader();
 function setLoader(v) {
   const pct = Math.round(Math.max(0, Math.min(1, v)) * 100);
   loaderFill.style.width = `${pct}%`;
   loaderPct.textContent = `${pct}%`;
 }
 
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath(`${import.meta.env.BASE_URL}draco/`);
+dracoLoader.setDecoderConfig({ type: 'js' });
+
+const gltfLoader = new GLTFLoader();
+gltfLoader.setDRACOLoader(dracoLoader);
+
 gltfLoader.load(
   MODEL,
   (gltf) => {
-    model = gltf.scene;
+    const model = gltf.scene;
     model.traverse((child) => {
       if (!child.isMesh) return;
-      const mats = Array.isArray(child.material) ? child.material : [child.material];
-      for (const mat of mats) {
-        if (!mat) continue;
-        if (mat.emissive && (mat.emissiveMap || mat.emissive.getHex() !== 0)) {
-          mat.userData.base = mat.emissiveIntensity ?? 1;
-          neonMats.push(mat);
-        }
-        if (mat.map) mat.map.anisotropy = 4;
-      }
-      nodes.push(child);
       if (child.name === 'SkyDome' || child.name === 'SunDisc') child.visible = false;
-    });
-
-    // the awnings and neon bars read as pure white when bloom hits them
-    model.traverse((child) => {
-      if (!child.isMesh) return;
       const mats = Array.isArray(child.material) ? child.material : [child.material];
       for (const m of mats) {
-        if (!m || !m.emissive) continue;
-        const name = m.name || '';
-        if (name.includes('AwningNeon')) m.emissiveIntensity *= 0.28;
-        else if (name.includes('ShopNeon')) m.emissiveIntensity *= 0.55;
-        else if (name.includes('ShopInterior')) m.emissiveIntensity *= 0.5;
-        else if (name.includes('FoodBulb')) m.emissiveIntensity *= 0.6;
+        if (!m) continue;
+        if (m.name?.includes('AwningNeon')) m.emissiveIntensity *= 0.28;
+        else if (m.name?.includes('ShopNeon')) m.emissiveIntensity *= 0.55;
+        if (m.map) m.map.anisotropy = 4;
       }
     });
     scene.add(model);
     setLoader(1);
     setTimeout(() => {
       loaderEl.dataset.done = 'true';
-    }, 300);
+    }, 400);
   },
   (event) => {
     if (event.total) setLoader(event.loaded / event.total);
   },
   (error) => {
-    console.error('[hyderabad] load failed', error);
+    console.error('[hyderabad] model failed', error);
     loaderEl.dataset.done = 'true';
   },
 );
 
-/* ----------------------------------------------------------------- render */
+/* ------------------------------------------------------------------- tour */
 
-const systems = createSystems({
-  scene,
-  camera,
-  player,
-  keys,
-  sky,
-  sound,
-  radio,
-  onToast: (message) => {
-    let el = document.getElementById('toast');
-    if (!el) {
-      el = document.createElement('div');
-      el.id = 'toast';
-      document.body.appendChild(el);
-    }
-    el.textContent = message;
-    el.dataset.show = 'true';
-    clearTimeout(el._t);
-    el._t = setTimeout(() => { el.dataset.show = 'false'; }, 2800);
-  },
-  onHud: ({ chai }) => {
-    const box = document.getElementById('mission');
-    const count = document.getElementById('mission-count');
-    if (box) box.hidden = false;
-    if (count) count.textContent = String(chai);
-  },
+// one waypoint per district: a camera perch looking across that town
+const waypoints = DISTRICTS.map((d, i) => {
+  const angle = (i / DISTRICTS.length) * Math.PI * 2;
+  const radius = 78;
+  return {
+    district: d,
+    position: new THREE.Vector3(
+      d.at.x + Math.cos(angle) * radius,
+      26 + (i % 3) * 12,
+      d.at.z + Math.sin(angle) * radius,
+    ),
+    look: new THREE.Vector3(d.at.x, 8, d.at.z),
+  };
 });
-window.__systems = systems;
 
-const clock = new THREE.Clock();
+const pathCurve = new THREE.CatmullRomCurve3(waypoints.map((w) => w.position), true, 'catmullrom', 0.4);
+const lookCurve = new THREE.CatmullRomCurve3(waypoints.map((w) => w.look), true, 'catmullrom', 0.4);
+
+const tour = {
+  t: 0,
+  duration: 96,           // seconds for the whole loop
+  paused: false,
+  currentDistrict: null,
+};
+
 let elapsed = 0;
 
-function updatePlayer(dt) {
-  if (intro.active) {
-    intro.t += dt;
-    const k = Math.min(1, intro.t / 3.6);
-    const ease = 1 - Math.pow(1 - k, 3);
-    camera.position.set(
-      THREE.MathUtils.lerp(150, player.pos.x, ease),
-      THREE.MathUtils.lerp(95, player.pos.y, ease),
-      THREE.MathUtils.lerp(-175, player.pos.z, ease),
-    );
-    camera.lookAt(0, 18 * (1 - ease) + 2, 0);
-    if (k >= 1) {
-      intro.active = false;
-      document.getElementById('intro-note').hidden = true;
-    }
-    return;
-  }
-
-  const speed = player.sprint ? 26 : 11;
-  const forward = new THREE.Vector3(-Math.sin(player.yaw), 0, -Math.cos(player.yaw));
-  const right = new THREE.Vector3(-forward.z, 0, forward.x);
-  const dir = new THREE.Vector3();
-  if (keys.has('w') || keys.has('arrowup')) dir.add(forward);
-  if (keys.has('s') || keys.has('arrowdown')) dir.sub(forward);
-  if (keys.has('a') || keys.has('arrowleft')) dir.sub(right);
-  if (keys.has('d') || keys.has('arrowright')) dir.add(right);
-  if (dir.lengthSq() > 0) dir.normalize();
-
-  player.vel.lerp(dir.multiplyScalar(speed), 1 - Math.pow(0.001, dt));
-  player.pos.addScaledVector(player.vel, dt);
-  player.pos.x = THREE.MathUtils.clamp(player.pos.x, -BOUND, BOUND);
-  player.pos.z = THREE.MathUtils.clamp(player.pos.z, -BOUND, BOUND);
-
-  // gentle head bob
-  const moving = player.vel.length() > 0.4;
-  const bob = moving ? Math.sin(elapsed * (player.sprint ? 13 : 8)) * 0.045 : 0;
-  player.pos.y = 1.7 + bob;
-
-  camera.position.copy(player.pos);
-  const look = new THREE.Vector3(
-    -Math.sin(player.yaw) * Math.cos(player.pitch),
-    Math.sin(player.pitch),
-    -Math.cos(player.yaw) * Math.cos(player.pitch),
-  );
-  camera.lookAt(player.pos.clone().add(look));
-
-  if (moving) {
-    walked += player.vel.length() * dt;
-    const stride = player.sprint ? 1.15 : 0.72;
-    if (walked >= stride) {
-      walked = 0;
-      sound.step(1, player.sprint);
-    }
-  }
-
-  const kmh = Math.round(player.vel.length() * 3.6 * 1.6);
-  speedEl.textContent = moving ? `${kmh} KM/H` : '';
-  compassNeedle.style.transform = `rotate(${-player.yaw}rad)`;
+function districtForProgress(t) {
+  const index = Math.floor(t * DISTRICTS.length) % DISTRICTS.length;
+  return DISTRICTS[index];
 }
 
-function drawRadar() {
-  const w = radar.width;
-  const cx = w / 2;
-  radarCtx.clearRect(0, 0, w, w);
-  radarCtx.save();
-  radarCtx.translate(cx, cx);
-  radarCtx.rotate(player.yaw);
-
-  // block grid (GTA-style)
-  const blockPx = 9;
-  const pitchPx = 13;
-  radarCtx.fillStyle = 'rgba(255, 79, 163, 0.16)';
-  radarCtx.strokeStyle = 'rgba(255, 206, 106, 0.22)';
-  radarCtx.lineWidth = 1;
-  for (let i = -6; i <= 6; i += 1) {
-    for (let j = -6; j <= 6; j += 1) {
-      const x = i * pitchPx - blockPx / 2;
-      const y = j * pitchPx - blockPx / 2;
-      if (Math.hypot(x, y) > w * 0.46) continue;
-      radarCtx.fillRect(x, y, blockPx, blockPx);
-      radarCtx.strokeRect(x, y, blockPx, blockPx);
-    }
-  }
-
-  // main avenues
-  radarCtx.strokeStyle = 'rgba(79, 227, 255, 0.35)';
-  radarCtx.lineWidth = 2;
-  radarCtx.beginPath();
-  radarCtx.moveTo(-w, 0);
-  radarCtx.lineTo(w, 0);
-  radarCtx.moveTo(0, -w);
-  radarCtx.lineTo(0, w);
-  radarCtx.stroke();
-  radarCtx.restore();
-
-  // player arrow
-  radarCtx.save();
-  radarCtx.translate(cx, cx);
-  radarCtx.fillStyle = '#4fe3ff';
-  radarCtx.beginPath();
-  radarCtx.moveTo(0, -8);
-  radarCtx.lineTo(6, 7);
-  radarCtx.lineTo(0, 4);
-  radarCtx.lineTo(-6, 7);
-  radarCtx.closePath();
-  radarCtx.fill();
-  radarCtx.restore();
+function showDistrict(district) {
+  if (tour.currentDistrict === district.id) return;
+  tour.currentDistrict = district.id;
+  dName.textContent = district.name;
+  dUrdu.textContent = district.urdu;
+  dNote.textContent = district.note;
+  cardEl.dataset.show = 'true';
+  clearTimeout(cardEl._t);
+  cardEl._t = setTimeout(() => {
+    cardEl.dataset.show = 'false';
+  }, 5200);
 }
+
+function updateTour(dt) {
+  if (!tour.paused) tour.t = (tour.t + dt / tour.duration) % 1;
+  const t = tour.t;
+
+  const pos = pathCurve.getPointAt(t);
+  const look = lookCurve.getPointAt(t);
+
+  // gentle handheld drift so it feels photographed, not rigged
+  const drift = 0.35;
+  pos.x += Math.sin(elapsed * 0.31) * drift;
+  pos.y += Math.cos(elapsed * 0.24) * drift * 0.6;
+  pos.z += Math.sin(elapsed * 0.19 + 1.1) * drift;
+
+  camera.position.lerp(pos, 1 - Math.pow(0.0015, dt));
+  camera.lookAt(look);
+
+  progressFill.style.width = `${Math.round(t * 100)}%`;
+  showDistrict(districtForProgress(t));
+}
+
+/* ------------------------------------------------------------------- hud */
 
 function tickClock() {
   const now = new Date();
   clockEl.textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 }
-
 setInterval(tickClock, 15000);
 tickClock();
+
+let audioOn = false;
+soundBtn.addEventListener('click', async () => {
+  audioOn = !audioOn;
+  if (audioOn) await sound.enable();
+  else sound.disable();
+  soundBtn.textContent = audioOn ? 'Sound on' : 'Sound off';
+});
+
+// the very first click also arms the city mix
+window.addEventListener('pointerdown', () => {
+  if (!audioOn) {
+    audioOn = true;
+    sound.enable().catch(() => {});
+    soundBtn.textContent = 'Sound on';
+  }
+}, { once: true });
+
+/* ------------------------------------------------------------------ loop */
+
+const clock = new THREE.Clock();
 
 function loop() {
   const dt = Math.min(0.05, clock.getDelta());
   elapsed += dt;
-  if (systems.driving || systems.photo) {
-    systems.update(dt, elapsed);
-  } else {
-    updatePlayer(dt);
-    systems.update(dt, elapsed);
-  }
+
+  updateTour(dt);
   sky.update(elapsed);
+  trafficLights.update(dt);
   traffic.update(dt);
   pedestrians.update(dt, elapsed);
   props.update(dt, elapsed);
   sound.update(dt);
-  drawRadar();
+
   composer.render();
   requestAnimationFrame(loop);
 }
@@ -405,6 +232,14 @@ window.addEventListener('resize', () => {
   composer.setSize(window.innerWidth, window.innerHeight);
 });
 
-camera.position.set(150, 95, -175);
-camera.lookAt(0, 18, 0);
+camera.position.set(120, 90, 120);
+camera.lookAt(0, 10, 0);
 loop();
+
+/* test hook: jump the film to a moment */
+window.__seek = (t) => {
+  tour.t = t % 1;
+  const pos = pathCurve.getPointAt(tour.t);
+  camera.position.copy(pos);
+  camera.lookAt(lookCurve.getPointAt(tour.t));
+};

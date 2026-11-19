@@ -1,0 +1,382 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 6,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "subcomposition_linked_style_names_root_id",
+        "severity": "warning",
+        "message": "The linked stylesheet \"compositions\\assets\\scene.css\" has a rule on #root, the id of this sub-composition's root. The root is merged into its host when the composition is compiled, so that selector matches nothing (the same rule in an inline <style> is rewritten and works).",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "E:\\hyderabad-city\\brag-output\\composition\\compositions\\s1.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move the #root rules into a <style> inside the <template>, where they are rewritten for the merged root, or select a child element of the root in the linked file instead of the root itself."
+      },
+      {
+        "code": "subcomposition_linked_style_names_root_id",
+        "severity": "warning",
+        "message": "The linked stylesheet \"compositions\\assets\\scene.css\" has a rule on #root, the id of this sub-composition's root. The root is merged into its host when the composition is compiled, so that selector matches nothing (the same rule in an inline <style> is rewritten and works).",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "E:\\hyderabad-city\\brag-output\\composition\\compositions\\s2.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move the #root rules into a <style> inside the <template>, where they are rewritten for the merged root, or select a child element of the root in the linked file instead of the root itself."
+      },
+      {
+        "code": "subcomposition_linked_style_names_root_id",
+        "severity": "warning",
+        "message": "The linked stylesheet \"compositions\\assets\\scene.css\" has a rule on #root, the id of this sub-composition's root. The root is merged into its host when the composition is compiled, so that selector matches nothing (the same rule in an inline <style> is rewritten and works).",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "E:\\hyderabad-city\\brag-output\\composition\\compositions\\s3.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move the #root rules into a <style> inside the <template>, where they are rewritten for the merged root, or select a child element of the root in the linked file instead of the root itself."
+      },
+      {
+        "code": "subcomposition_linked_style_names_root_id",
+        "severity": "warning",
+        "message": "The linked stylesheet \"compositions\\assets\\scene.css\" has a rule on #root, the id of this sub-composition's root. The root is merged into its host when the composition is compiled, so that selector matches nothing (the same rule in an inline <style> is rewritten and works).",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "E:\\hyderabad-city\\brag-output\\composition\\compositions\\s4.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move the #root rules into a <style> inside the <template>, where they are rewritten for the merged root, or select a child element of the root in the linked file instead of the root itself."
+      },
+      {
+        "code": "subcomposition_linked_style_names_root_id",
+        "severity": "warning",
+        "message": "The linked stylesheet \"compositions\\assets\\scene.css\" has a rule on #root, the id of this sub-composition's root. The root is merged into its host when the composition is compiled, so that selector matches nothing (the same rule in an inline <style> is rewritten and works).",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "E:\\hyderabad-city\\brag-output\\composition\\compositions\\s5.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move the #root rules into a <style> inside the <template>, where they are rewritten for the merged root, or select a child element of the root in the linked file instead of the root itself."
+      },
+      {
+        "code": "subcomposition_linked_style_names_root_id",
+        "severity": "warning",
+        "message": "The linked stylesheet \"compositions\\assets\\scene.css\" has a rule on #root, the id of this sub-composition's root. The root is merged into its host when the composition is compiled, so that selector matches nothing (the same rule in an inline <style> is rewritten and works).",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "E:\\hyderabad-city\\brag-output\\composition\\compositions\\s6.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move the #root rules into a <style> inside the <template>, where they are rewritten for the merged root, or select a child element of the root in the linked file instead of the root itself."
+      }
+    ],
+    "filesScanned": 7
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "duration": 20,
+    "samples": [
+      1.111,
+      3.333,
+      5.556,
+      7.778,
+      10,
+      12.222,
+      14.444,
+      16.667,
+      18.889
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 0,
+    "truncated": false,
+    "faceCheck": {
+      "ran": true,
+      "candidates": 0,
+      "faces": 0
+    }
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.111,
+      5.556,
+      10,
+      14.444,
+      18.889
+    ],
+    "checked": 13,
+    "passed": 13
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 2,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Saddar to Phuleli — every district signed in Urdu and Eng...\" (10 words) is on screen 1.87 s (±0.01 s), under its 2.63 s floor: hold it about 0.5 s + 0.3 s a word (3.50 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Saddar to Phuleli — every district signed in Urdu and English.",
+        "selector": "#s2-sub",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2.html",
+        "bbox": {
+          "x": 90,
+          "y": 631.3,
+          "width": 1050.27,
+          "height": 46
+        },
+        "time": 3.539,
+        "words": 10,
+        "seconds": 1.867,
+        "floorSeconds": 2.625,
+        "measured": [
+          {
+            "time": 3.25,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 3.375,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 3.5,
+            "opacity": 0.4,
+            "heightPx": 46
+          },
+          {
+            "time": 3.625,
+            "opacity": 0.69,
+            "heightPx": 46
+          },
+          {
+            "time": 3.75,
+            "opacity": 0.93,
+            "heightPx": 46
+          },
+          {
+            "time": 3.875,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 4,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 5,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 5.125,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 5.25,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 5.375,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 5.5,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 5.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 5.75,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"A shader sky, three weathers, a city that changes.\" (9 words) is on screen 2.07 s (±0.01 s), under its 2.40 s floor: hold it about 0.5 s + 0.3 s a word (3.20 s here) before it leaves or changes; see references/motion.md.",
+        "text": "A shader sky, three weathers, a city that changes.",
+        "selector": "#s5-sub",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s5.html",
+        "bbox": {
+          "x": 90,
+          "y": 631.3,
+          "width": 870.53,
+          "height": 46
+        },
+        "time": 12.734,
+        "words": 9,
+        "seconds": 2.07,
+        "floorSeconds": 2.4,
+        "measured": [
+          {
+            "time": 12.375,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.5,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.75,
+            "opacity": 0.5,
+            "heightPx": 46
+          },
+          {
+            "time": 12.875,
+            "opacity": 0.83,
+            "heightPx": 46
+          },
+          {
+            "time": 13,
+            "opacity": 0.99,
+            "heightPx": 46
+          },
+          {
+            "time": 13.125,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 14.375,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 14.5,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 14.625,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 14.75,
+            "opacity": 1,
+            "heightPx": 46
+          },
+          {
+            "time": 14.875,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 15,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 15.125,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 160
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

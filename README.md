@@ -5,6 +5,7 @@ browser with Three.js. Vice City sunset palette, San Andreas street level: named
 shopfronts, a food street, a bazaar, rickshaws and a clock tower.
 
 **Live:** https://ahmedalighori.github.io/hyderabad-city/
+**Film:** `brag-output/brag.mp4` (20 s)
 **Repo:** https://github.com/AHMEDALIGHORI/hyderabad-city
 
 **Run it**
@@ -34,6 +35,15 @@ pnpm dev        # http://127.0.0.1:5190
 **Also in:** block-and-building collision, five chai spots to find (HUD counter),
 traffic on the road grid, pedestrians with a real gait, animals, trees, bicycles,
 and destination buildings (mall, dhaba, gym, shoes).
+
+## The film
+
+A 20-second cover film of the city, made with Hyperframes:
+
+- `brag-output/brag.mp4` — 1920×1080, 20.0 s, h264 + aac
+- `brag-output/brag.jpg` — poster frame
+- `brag-output/brag-plan.md` — storyboard
+- `brag-output/share-copy.txt` — post copy
 
 ## What is in the city
 

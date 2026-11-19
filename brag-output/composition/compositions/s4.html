@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/scene.css" />
+  </head>
+  <body>
+    <div id="root" data-composition-id="s4" data-start="0" data-duration="3.2" data-width="1920" data-height="1080">
+      <img class="shot" id="s4-shot" src="assets/drive.png" alt="Hyderabad, Sindh" />
+      <div class="veil"></div>
+      <div class="copy">
+        <p class="kicker" id="s4-kicker">02 — MOVING</p>
+        <h1 id="s4-title">Rickshaws, buses,<br>cows in the road.</h1>
+        <p class="sub" id="s4-sub">Traffic lights, pedestrians, animals — alive, not parked.</p>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#s4-shot", { scale: 1.12 }, { scale: 1.0, duration: 3.2, ease: "power1.out" }, 0);
+      tl.fromTo("#s4-kicker", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.15);
+      tl.fromTo("#s4-title", { opacity: 0, y: 34, filter: "blur(8px)" },
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.62, ease: "power4.out" }, 0.28);
+      tl.fromTo('#s4-sub', { opacity: 0 }, { opacity: 1, duration: 0.45 }, 0.8);
+      window.__timelines["s4"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

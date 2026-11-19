@@ -3,16 +3,24 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Hyderabad — Sindh, after sunset</title>
+    <title>Hyderabad, Sindh — after sunset</title>
     <meta
       name="description"
-      content="A stylised Hyderabad, Sindh — Vice City sunset, San Andreas street level. Built in Blender, walked in the browser."
+      content="A cinematic 3D portrait of Hyderabad, Sindh: Saddar to Latifabad, Qasimabad to Phuleli, after sunset."
     />
     <meta name="theme-color" content="#1a0b18" />
+    <meta property="og:title" content="Hyderabad, Sindh — after sunset" />
+    <meta
+      property="og:description"
+      content="A cinematic 3D portrait of Hyderabad: eleven towns, one sunset, built in Blender."
+    />
+    <meta property="og:image" content="./og.jpg" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif&family=Space+Grotesk:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -30,32 +38,15 @@
       <div class="clock" id="clock">00:00</div>
     </header>
 
-    <div id="mission">CHAI <b id="mission-count">0</b>/5</div>
-    <div id="toast"></div>
+    <section id="district-card" aria-live="polite">
+      <span class="urdu" id="d-urdu"></span>
+      <h2 id="d-name"></h2>
+      <p id="d-note"></p>
+    </section>
 
-    <div id="compass" aria-hidden="true"><span id="compass-needle"></span></div>
+    <div id="progress"><i id="progress-fill"></i></div>
 
-    <div id="hud-bottom">
-      <div class="controls">
-        <span><b>W A S D</b> walk</span>
-        <span><b>SHIFT</b> run</span>
-        <span><b>DRAG</b> look</span>
-        <span><b>N</b> neon</span>
-        <span><b>M</b> sound</span>
-        <span><b>E</b> rickshaw</span>
-        <span><b>F</b> photo</span>
-        <span><b>T</b> light</span>
-        <span><b>Y</b> weather</span>
-        <span><b>B</b> radio</span>
-        <span><b>R</b> reset</span>
-      </div>
-      <div class="speed" id="speed"></div>
-    </div>
-
-    <div id="radar">
-      <canvas id="radar-canvas" width="240" height="240"></canvas>
-      <div class="radar-label">LATIFABAD · UNIT 7</div>
-    </div>
+    <button id="sound-btn" type="button">Sound off</button>
 
     <div id="loader">
       <div class="loader-inner">
@@ -65,8 +56,6 @@
         <span class="pct" id="loader-pct">0%</span>
       </div>
     </div>
-
-    <div id="intro-note" hidden>Click to take the wheel</div>
 
     <script type="module" src="/src/main.js"></script>
   </body>

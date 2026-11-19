@@ -1,0 +1,212 @@
+{
+  "version": 1,
+  "historyId": "c9ea11b8-92ec-41ce-9b4d-743138aa0043",
+  "currentRevision": "18ca5bb5-a233-4a00-ad84-bc894b279d4f",
+  "pendingChanges": false,
+  "files": {
+    "assets/scene.css": {
+      "hash": "8f02ec1ce2697ae09849293c50e8cb590bc96715ca4ae4adb33cb044af7c2ff0",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\8f\\8f02ec1ce2697ae09849293c50e8cb590bc96715ca4ae4adb33cb044af7c2ff0"
+    },
+    "compositions/assets/scene.css": {
+      "hash": "8f02ec1ce2697ae09849293c50e8cb590bc96715ca4ae4adb33cb044af7c2ff0",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\8f\\8f02ec1ce2697ae09849293c50e8cb590bc96715ca4ae4adb33cb044af7c2ff0"
+    },
+    "compositions/s1.html": {
+      "hash": "c4c01cb78f507ee033953cac4c72a874581b7d8c663cb5b1122b60398da1d5e1",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\c4\\c4c01cb78f507ee033953cac4c72a874581b7d8c663cb5b1122b60398da1d5e1"
+    },
+    "compositions/s2.html": {
+      "hash": "7436bd2d2518eeb6eafcb5e249affb01e49acadb0c56b020181fcd6aa955a170",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\74\\7436bd2d2518eeb6eafcb5e249affb01e49acadb0c56b020181fcd6aa955a170"
+    },
+    "compositions/s3.html": {
+      "hash": "1ea0698f18a9c6999f10589b244e1e2bcb0e630f44ee162035b1e41f618868a6",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\1e\\1ea0698f18a9c6999f10589b244e1e2bcb0e630f44ee162035b1e41f618868a6"
+    },
+    "compositions/s4.html": {
+      "hash": "a1ec7d64e573a780605a4164af14bf8cd5db1e38897cc11a8617e653396271b2",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\a1\\a1ec7d64e573a780605a4164af14bf8cd5db1e38897cc11a8617e653396271b2"
+    },
+    "compositions/s5.html": {
+      "hash": "c6408eb92e4ae1622f1c83fa780ad5b0cd21555ba13f83dd3c9d8d75d41ffab2",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\c6\\c6408eb92e4ae1622f1c83fa780ad5b0cd21555ba13f83dd3c9d8d75d41ffab2"
+    },
+    "compositions/s6.html": {
+      "hash": "a4e7d500345c9a98dbe2b2864b42a3c8e1e594997d559d8c0f6be90353c2e9a5",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\a4\\a4e7d500345c9a98dbe2b2864b42a3c8e1e594997d559d8c0f6be90353c2e9a5"
+    },
+    "index.html": {
+      "hash": "52f7f75643560d363476bb28a20c0474b850258febd985f2f19ee98f624b2357",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\52\\52f7f75643560d363476bb28a20c0474b850258febd985f2f19ee98f624b2357"
+    },
+    "assets/drive.png": {
+      "hash": "725dfd6a342bcbb5c9bac9b85d8b92ebbcde091afd0dfd7b1686b651d2d4bee7",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\72\\725dfd6a342bcbb5c9bac9b85d8b92ebbcde091afd0dfd7b1686b651d2d4bee7"
+    },
+    "assets/dusk.png": {
+      "hash": "a2e23867039cf02b85d757ee1ea2e78f6fa515d9e77fca53bfde1c1fb0426342",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\a2\\a2e23867039cf02b85d757ee1ea2e78f6fa515d9e77fca53bfde1c1fb0426342"
+    },
+    "assets/hero.png": {
+      "hash": "3d3704268d9a15de84b183f584dfb07224b190990a0c9d294c221ec486dfb682",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\3d\\3d3704268d9a15de84b183f584dfb07224b190990a0c9d294c221ec486dfb682"
+    },
+    "assets/music.mp3": {
+      "hash": "f9912f2c962ada1e579f5ccc5a7d854d67e5e81ee96a7dd8c885a8480ae58d09",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\f9\\f9912f2c962ada1e579f5ccc5a7d854d67e5e81ee96a7dd8c885a8480ae58d09"
+    },
+    "assets/night.png": {
+      "hash": "da0008234c3133191c4098f5a3cb13e9382cc255bd6bfd2c6f5e6c70d3fd0ba1",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\da\\da0008234c3133191c4098f5a3cb13e9382cc255bd6bfd2c6f5e6c70d3fd0ba1"
+    },
+    "assets/street.png": {
+      "hash": "960aea816613e7756de4a1b31cb92fabf268fd75ba3465a7d4b0f5a627816bf8",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\96\\960aea816613e7756de4a1b31cb92fabf268fd75ba3465a7d4b0f5a627816bf8"
+    },
+    "assets/wide.png": {
+      "hash": "ad48decc9a2bcf8e006577c8f784e02a4fd4a38e2307f6f2184b26e45660a35b",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\ad\\ad48decc9a2bcf8e006577c8f784e02a4fd4a38e2307f6f2184b26e45660a35b"
+    },
+    "compositions/assets/drive.png": {
+      "hash": "725dfd6a342bcbb5c9bac9b85d8b92ebbcde091afd0dfd7b1686b651d2d4bee7",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\72\\725dfd6a342bcbb5c9bac9b85d8b92ebbcde091afd0dfd7b1686b651d2d4bee7"
+    },
+    "compositions/assets/dusk.png": {
+      "hash": "a2e23867039cf02b85d757ee1ea2e78f6fa515d9e77fca53bfde1c1fb0426342",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\a2\\a2e23867039cf02b85d757ee1ea2e78f6fa515d9e77fca53bfde1c1fb0426342"
+    },
+    "compositions/assets/hero.png": {
+      "hash": "3d3704268d9a15de84b183f584dfb07224b190990a0c9d294c221ec486dfb682",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\3d\\3d3704268d9a15de84b183f584dfb07224b190990a0c9d294c221ec486dfb682"
+    },
+    "compositions/assets/night.png": {
+      "hash": "da0008234c3133191c4098f5a3cb13e9382cc255bd6bfd2c6f5e6c70d3fd0ba1",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\da\\da0008234c3133191c4098f5a3cb13e9382cc255bd6bfd2c6f5e6c70d3fd0ba1"
+    },
+    "compositions/assets/street.png": {
+      "hash": "960aea816613e7756de4a1b31cb92fabf268fd75ba3465a7d4b0f5a627816bf8",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\96\\960aea816613e7756de4a1b31cb92fabf268fd75ba3465a7d4b0f5a627816bf8"
+    },
+    "compositions/assets/wide.png": {
+      "hash": "ad48decc9a2bcf8e006577c8f784e02a4fd4a38e2307f6f2184b26e45660a35b",
+      "content": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\ad\\ad48decc9a2bcf8e006577c8f784e02a4fd4a38e2307f6f2184b26e45660a35b"
+    }
+  },
+  "revisions": {
+    "18ca5bb5-a233-4a00-ad84-bc894b279d4f": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795123685079,
+      "endedAt": 1795123685110,
+      "files": {
+        "compositions/s2.html": {
+          "before": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\f3\\f3e4b994067a671bb59c0cca39e35d072261b480a43e4e8dd866f4b2ddbd62ba",
+          "after": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\74\\7436bd2d2518eeb6eafcb5e249affb01e49acadb0c56b020181fcd6aa955a170"
+        },
+        "compositions/s5.html": {
+          "before": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\98\\98f837ce7e66904914b3551c3b437410fea18bb263e5c03a1ed80ae4c6d5cd03",
+          "after": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\c6\\c6408eb92e4ae1622f1c83fa780ad5b0cd21555ba13f83dd3c9d8d75d41ffab2"
+        },
+        "compositions/s6.html": {
+          "before": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\47\\47184102222b100a40fae995d8745c0b8f106ceb83bd1f270fdd3ced12c4fd82",
+          "after": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\a4\\a4e7d500345c9a98dbe2b2864b42a3c8e1e594997d559d8c0f6be90353c2e9a5"
+        },
+        "index.html": {
+          "before": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\f9\\f93c6d0149a831bf9c74ac179c4d886a06cd4ca59c312ee831d318a779976d39",
+          "after": "C:\\Users\\user\\.cache\\hyperframes\\history\\c9ea11b8-92ec-41ce-9b4d-743138aa0043\\blobs\\52\\52f7f75643560d363476bb28a20c0474b850258febd985f2f19ee98f624b2357"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": "18ca5bb5-a233-4a00-ad84-bc894b279d4f",
+      "id": "23ba0585-5db6-43a4-ba89-10ff2c2e5aac"
+    },
+    "revisions": {
+      "18ca5bb5-a233-4a00-ad84-bc894b279d4f": [
+        {
+          "id": "23ba0585-5db6-43a4-ba89-10ff2c2e5aac",
+          "scope": "project",
+          "report": "E:\\hyderabad-city\\brag-output\\composition\\.hyperframes\\artifacts\\checks\\23ba0585-5db6-43a4-ba89-10ff2c2e5aac.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 45000,
+              "cache": true,
+              "contrast": true,
+              "craft": true,
+              "strict": false,
+              "snapshots": false,
+              "safeZones": [
+                "tiktok",
+                "reels",
+                "shorts"
+              ],
+              "browserGpuMode": "auto",
+              "includeUnmounted": false
+            }
+          },
+          "createdAt": 1795123696117,
+          "contentHash": "c293d61ff66fd478af57b5412b3df40dcfa5d6072c17172895c80051128cb108",
+          "revision": "18ca5bb5-a233-4a00-ad84-bc894b279d4f",
+          "inputFingerprint": "079e6931355ee4b23c6211ddd86d2c8eef8171652b488686f3a17d27abe0b555",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "7f611e49-d0d3-4968-b0a6-db907804efc7",
+        "scope": "project",
+        "report": "E:\\hyderabad-city\\brag-output\\composition\\.hyperframes\\artifacts\\checks\\7f611e49-d0d3-4968-b0a6-db907804efc7.json",
+        "metadata": {
+          "ok": true,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 45000,
+            "cache": true,
+            "contrast": true,
+            "craft": true,
+            "strict": false,
+            "snapshots": false,
+            "safeZones": [
+              "tiktok",
+              "reels",
+              "shorts"
+            ],
+            "browserGpuMode": "auto",
+            "includeUnmounted": false
+          }
+        },
+        "createdAt": 1795123638612,
+        "contentHash": "52d1ae946a36c2e65ee92cb2f96e435b7b18626ac3cec8fcf3907140d5506097",
+        "revision": null,
+        "inputFingerprint": "ae5d422dcdc6e5cb40c9f557649d3c30695e4cd0c01943691e5425ebeed7017e",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  }
+}
